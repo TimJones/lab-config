@@ -6,5 +6,9 @@ terraform {
       source  = "ovh/ovh"
       version = "~> 2.19"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.9"
+    }
   }
 }

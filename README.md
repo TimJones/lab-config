@@ -11,3 +11,9 @@ lab-config/
 ├── LICENSE               # License information
 └── README.md             # Main documentation
 ```
+
+## Projects
+
+### infra-state
+
+The storage for various infrastructue tooling state.

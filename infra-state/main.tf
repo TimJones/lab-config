@@ -46,3 +46,27 @@ resource "ovh_cloud_project_storage_object_bucket_lifecycle_configuration" "infr
     }
   }]
 }
+
+resource "ovh_cloud_project_user" "infra_state" {
+  service_name = ovh_cloud_project_storage.infra_state.service_name
+  description  = var.project_name
+  role_name    = "objectstore_operator"
+}
+
+resource "ovh_cloud_project_user_s3_credential" "infra_state" {
+  user_id      = ovh_cloud_project_user.infra_state.id
+  service_name = ovh_cloud_project_user.infra_state.service_name
+}
+
+resource "ovh_cloud_project_user_s3_policy" "infra_state" {
+  service_name = ovh_cloud_project_storage.infra_state.service_name
+  user_id      = ovh_cloud_project_user.infra_state.id
+  policy = jsonencode({
+    "Statement" : [{
+      "Action" : ["s3:ListBucket", "s3:GetObject", "s3:PutObject"],
+      "Effect" : "Allow",
+      "Resource" : ["arn:aws:s3:::${ovh_cloud_project_storage.infra_state.name}", "arn:aws:s3:::${ovh_cloud_project_storage.infra_state.name}/*"],
+      "Sid" : "ReadWriteState"
+    }]
+  })
+}

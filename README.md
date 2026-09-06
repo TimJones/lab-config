@@ -17,3 +17,7 @@ lab-config/
 ### infra-state
 
 The storage for various infrastructue tooling state.
+
+### home-cluster
+
+My home Kubernetes cluster running on Talos managed by Omni.

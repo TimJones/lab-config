@@ -62,11 +62,19 @@ resource "ovh_cloud_project_user_s3_policy" "infra_state" {
   service_name = ovh_cloud_project_storage.infra_state.service_name
   user_id      = ovh_cloud_project_user.infra_state.id
   policy = jsonencode({
-    "Statement" : [{
-      "Action" : ["s3:ListBucket", "s3:GetObject", "s3:PutObject"],
-      "Effect" : "Allow",
-      "Resource" : ["arn:aws:s3:::${ovh_cloud_project_storage.infra_state.name}", "arn:aws:s3:::${ovh_cloud_project_storage.infra_state.name}/*"],
-      "Sid" : "ReadWriteState"
-    }]
+    "Statement" : [
+      {
+        "Sid" : "StateFiles"
+        "Action" : ["s3:ListBucket", "s3:GetObject", "s3:PutObject"],
+        "Effect" : "Allow",
+        "Resource" : ["arn:aws:s3:::${ovh_cloud_project_storage.infra_state.name}", "arn:aws:s3:::${ovh_cloud_project_storage.infra_state.name}/*"],
+      },
+      {
+        "Sid" : "LockFiles"
+        "Action" : ["s3:GetObject", "s3:PutObject", "s3:DeleteObject", "s3:BypassGovernanceRetention"],
+        "Effect" : "Allow",
+        "Resource" : ["arn:aws:s3:::${ovh_cloud_project_storage.infra_state.name}/*.tflock"],
+      }
+    ]
   })
 }

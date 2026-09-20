@@ -6,5 +6,9 @@ terraform {
       source  = "ovh/ovh"
       version = "~> 2.19"
     }
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.9"
+    }
   }
 }

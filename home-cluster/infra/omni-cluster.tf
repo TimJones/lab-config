@@ -1,3 +1,7 @@
+locals {
+  config_patches_dir = "${path.module}/patches"
+}
+
 resource "omni_cluster" "home_cluster" {
   name               = local.omni_friendy_project_name
   kubernetes_version = var.k8s_version
@@ -48,13 +52,37 @@ resource "omni_machine_extensions" "booter" {
   extensions = local.booter_extensions
 }
 
-resource "omni_config_patch" "kubespan" {
-  name    = "kubespan"
+resource "omni_config_patch" "cluster" {
+  for_each = fileset(local.config_patches_dir, "cluster_*.yaml")
+
+  name    = trimsuffix(each.value, ".yaml")
   cluster = omni_cluster.home_cluster.name
 
-  data = yamlencode({
-    apiVersion = "v1alpha1"
-    kind       = "KubeSpanConfig"
-    enabled    = true
-  })
+  data = file("${local.config_patches_dir}/${each.value}")
+}
+
+resource "omni_config_patch" "control_plane" {
+  for_each = fileset(local.config_patches_dir, "control_plane_*.yaml")
+
+  name    = trimsuffix(each.value, ".yaml")
+  cluster = omni_cluster.home_cluster.name
+
+  selector = {
+    machine_set = omni_machine_set.control_plane.id
+  }
+
+  data = file("${local.config_patches_dir}/${each.value}")
+}
+
+resource "omni_config_patch" "workers" {
+  for_each = fileset(local.config_patches_dir, "workers_*.yaml")
+
+  name    = trimsuffix(each.value, ".yaml")
+  cluster = omni_cluster.home_cluster.name
+
+  selector = {
+    machine_set = omni_machine_set.booter.id
+  }
+
+  data = file("${local.config_patches_dir}/${each.value}")
 }

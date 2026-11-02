@@ -1,3 +1,7 @@
+locals {
+  omni_friendy_project_name = replace(lower(var.project_name), " ", "-")
+}
+
 resource "ovh_cloud_project" "this" {
   ovh_subsidiary = data.ovh_me.this.ovh_subsidiary
   description    = var.project_name

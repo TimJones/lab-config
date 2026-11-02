@@ -6,17 +6,9 @@ terraform {
       source  = "ovh/ovh"
       version = "~> 2.19"
     }
-    local = {
-      source  = "hashicorp/local"
-      version = "~> 2.9"
-    }
-    http = {
-      source  = "hashicorp/http"
-      version = "~> 3.6"
-    }
-    openstack = {
-      source  = "terraform-provider-openstack/openstack"
-      version = "~> 3.4"
+    omni = {
+      source  = "siderolabs/omni"
+      version = "0.1.0-beta.0"
     }
   }
 }

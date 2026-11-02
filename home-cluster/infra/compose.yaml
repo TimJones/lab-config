@@ -1,0 +1,9 @@
+services:
+  omni-ovh-infra-provider:
+    image: ghcr.io/ktijssen/omni-infra-provider-ovhcloud:v0.4.0
+    env_file: .env.infra-provider-ovhcloud
+    environment:
+      OS_AUTH_URL: https://auth.cloud.ovh.net/v3
+      OMNI_ENDPOINT: https://timniverse.eu-central-1.omni.siderolabs.io
+    command:
+      - --id=home-cluster-ovhcloud

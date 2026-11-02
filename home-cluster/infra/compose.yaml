@@ -7,3 +7,11 @@ services:
       OMNI_ENDPOINT: https://timniverse.eu-central-1.omni.siderolabs.io
     command:
       - --id=home-cluster-ovhcloud
+  omni-booter:
+    image: ghcr.io/siderolabs/booter:v0.4.1-dirty
+    network_mode: host
+    env_file: .env.booter
+    expose:
+      - "50084"
+      - "67/udp"
+      - "4011/udp"

@@ -16,8 +16,14 @@ output "OS_PASSWORD" {
   value       = ovh_cloud_project_user.omni_infra_provider.password
 }
 
-output "OMNI_SERVICE_ACCOUNT_KEY" {
+output "OMNI_SERVICE_ACCOUNT_KEY_infra_provider" {
   description = "Omni OVHcloud infra provider credential"
   sensitive   = true
   value       = omni_infra_provider.ovhcloud.key
+}
+
+output "OMNI_SERVICE_ACCOUNT_KEY_booter" {
+  description = "Omni booter credential"
+  sensitive   = true
+  value       = omni_service_account.booter.key
 }

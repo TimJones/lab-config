@@ -28,7 +28,7 @@ resource "omni_machine_set" "booter" {
 
   machine_class = {
     name = omni_machine_class.booter.name
-    size = 3
+    size = length(var.bare_metal_uuids)
   }
 
   update_strategy = {

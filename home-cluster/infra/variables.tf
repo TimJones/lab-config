@@ -26,6 +26,16 @@ variable "ovh_instance_flavors" {
   ]
 }
 
+variable "bare_metal_uuids" {
+  description = "UUIDs of the bare-metal machines."
+  type        = set(string)
+  default = [
+    "00000000-0000-0000-0000-ac1f6bfd625c",
+    "00000000-0000-0000-0000-0cc47ab7f78e",
+    "00000000-0000-0000-0000-ac1f6bfd609c",
+  ]
+}
+
 variable "omni_url" {
   description = "The endpoint for the Omni instance."
   type        = string

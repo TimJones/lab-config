@@ -38,3 +38,10 @@ resource "omni_machine_class" "booter" {
 
   match_labels = [join(",", [for k, v in local.booter_labels : "${k} = ${v}"])]
 }
+
+resource "omni_machine_install_disk" "booter" {
+  for_each = var.bare_metal_uuids
+
+  machine_id    = each.value
+  disk_selector = "disk.transport == 'sata' && disk.model == 'SuperMicro SSD' && disk.size <= 128u * GiB"
+}
